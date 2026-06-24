@@ -1,0 +1,11 @@
+# Datos crudos (muy pesados, no se versionan)
+data/
+# Secretos
+entregable4/.env
+.env
+# Artefactos redundantes
+modelos_liviano/
+# Python
+__pycache__/
+*.pyc
+.ipynb_checkpoints/

@@ -1,0 +1,58 @@
+{
+  "features": [
+    "edad",
+    "edad2",
+    "es_arquero",
+    "es_defensor",
+    "es_mediocampista",
+    "es_delantero",
+    "height_in_cm",
+    "pie_zurdo",
+    "pie_ambidiestro",
+    "contrato_restante",
+    "sin_dato_contrato",
+    "n_ap",
+    "goles_por_partido",
+    "asist_por_partido",
+    "minutos_promedio",
+    "amarillas",
+    "n_ap_roll2",
+    "goles_roll2",
+    "asist_roll2",
+    "minutos_roll2",
+    "jugo_internacional",
+    "ap_inter",
+    "log_valor",
+    "dist_al_pico",
+    "flag_liga_top",
+    "nivel_liga",
+    "nivel_club",
+    "nivel_mercado",
+    "transferido",
+    "ratio_fee"
+  ],
+  "target": "log_growth",
+  "descripcion_target": "log1p(valor_T+1) - log1p(valor_T) (crecimiento logarítmico a 12 meses, anclado al 30/06)",
+  "reconstruccion": "valor_pred = expm1(log1p(valor_actual) + crecimiento_pred)",
+  "cuantiles": [
+    0.1,
+    0.5,
+    0.9
+  ],
+  "ajuste_conformal_Q": 0.001688052982535041,
+  "intervalo": "P10 = expm1(log1p(valor)+q10-Q) ; P90 = expm1(log1p(valor)+q90+Q)",
+  "devaluacion_desaparecidos": 0.5,
+  "mejor_modelo_puntual": "XGBoost",
+  "metricas_test": {
+    "r2_level": 0.8824,
+    "r2_level_baseline": 0.8247,
+    "mae_euros": 745478.03,
+    "cobertura_intervalo": 0.8206,
+    "recall_declives": 0.4554,
+    "r2_level_backtest_medio": 0.8783
+  },
+  "split": {
+    "train": "T <= 2022",
+    "test": "T >= 2023"
+  }
+}

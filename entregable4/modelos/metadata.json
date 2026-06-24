@@ -1,0 +1,54 @@
+{
+  "features": [
+    "edad",
+    "edad2",
+    "es_arquero",
+    "es_defensor",
+    "es_mediocampista",
+    "es_delantero",
+    "height_in_cm",
+    "pie_zurdo",
+    "pie_ambidiestro",
+    "contrato_restante",
+    "sin_dato_contrato",
+    "n_ap",
+    "goles_por_partido",
+    "asist_por_partido",
+    "minutos_promedio",
+    "amarillas",
+    "n_ap_roll2",
+    "goles_roll2",
+    "asist_roll2",
+    "minutos_roll2",
+    "jugo_internacional",
+    "ap_inter",
+    "log_valor",
+    "dist_al_pico",
+    "flag_liga_top",
+    "nivel_liga",
+    "nivel_club",
+    "nivel_mercado",
+    "transferido",
+    "ratio_fee"
+  ],
+  "target": "log_growth",
+  "reconstruccion": "valor_pred = expm1(log1p(valor_actual) + crecimiento_pred)",
+  "cuantiles": [
+    0.1,
+    0.5,
+    0.9
+  ],
+  "ajuste_conformal_Q": 0.001239194260582368,
+  "hiperparametros": {
+    "n_estimators": 400,
+    "max_depth": 6,
+    "learning_rate": 0.05,
+    "subsample": 0.8,
+    "colsample_bytree": 0.7
+  },
+  "devaluacion_desaparecidos": 0.5,
+  "metricas": {
+    "mae_euros": 748493.09,
+    "cobertura_intervalo": 0.8254
+  }
+}
