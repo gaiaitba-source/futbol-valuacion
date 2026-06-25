@@ -1,3 +1,12 @@
+---
+title: Scout AI
+emoji: ⚽
+sdk: docker
+app_port: 7860
+---
+
+
+
 # Entregable 4 — Despliegue: API + Interfaz
 
 Despliegue local de la solución del Entregable 3: una **API REST** que expone el modelo de

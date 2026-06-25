@@ -190,13 +190,15 @@ st.markdown(f"""<div class="hero"><h1>⚽ Scout <span class="oro">AI</span></h1>
   unsafe_allow_html=True)
 
 # --- Navegación (botones; el activo queda resaltado/deshabilitado) ---
-n1, n2, n3 = st.columns(3)
-n1.button("🔎  CONSULTAR JUGADOR", use_container_width=True, disabled=st.session_state.page == "consultar",
+n1, n2, n3, n4 = st.columns(4)
+n1.button("🔎  CONSULTAR", use_container_width=True, disabled=st.session_state.page == "consultar",
           on_click=ir_a, args=("consultar",))
-n2.button("📈  EVOLUCIÓN DEL MERCADO", use_container_width=True, disabled=st.session_state.page == "evolucion",
+n2.button("📈  MERCADO", use_container_width=True, disabled=st.session_state.page == "evolucion",
           on_click=ir_a, args=("evolucion",))
 n3.button("🏆  OPORTUNIDADES", use_container_width=True, disabled=st.session_state.page == "ranking",
           on_click=ir_a, args=("ranking",))
+n4.button("💬  ASISTENTE IA", use_container_width=True, disabled=st.session_state.page == "asistente",
+          on_click=ir_a, args=("asistente",))
 st.write("")
 
 
@@ -352,5 +354,59 @@ def pagina_ranking():
         cb.button("Ver →", key=f"ver_{x['player_id']}", on_click=ir_a, args=("consultar", x["player_id"]))
 
 
-PAG = {"consultar": pagina_consultar, "evolucion": pagina_evolucion, "ranking": pagina_ranking}
+# ====================================================== PÁGINA: ASISTENTE =====
+def pagina_asistente():
+    st.markdown("Pedile al asistente que te recomiende jugadores en lenguaje natural. "
+                "Ej: *“Tengo €85M y necesito un delantero, ¿cuál me recomendás?”* — te puede "
+                "repreguntar y prioriza los que el modelo proyecta al alza.")
+    st.session_state.setdefault("chat_msgs", [])
+    if st.button("🗑️ Limpiar conversación"):
+        st.session_state.chat_msgs = []
+
+    def fichas_buttons(cands, key):
+        # Botones "Ver ficha" para ir al detalle del jugador (como en Oportunidades)
+        vistos, cols, i = set(), None, 0
+        for c in cands:
+            pid = c.get("player_id")
+            if not pid or pid in vistos:
+                continue
+            vistos.add(pid)
+            if i % 3 == 0:
+                cols = st.columns(3)
+            cols[i % 3].button(f"📊 {c['nombre']}", key=f"{key}_{pid}",
+                               on_click=ir_a, args=("consultar", pid), use_container_width=True)
+            i += 1
+            if i >= 6:
+                break
+
+    for idx, m in enumerate(st.session_state.chat_msgs):
+        with st.chat_message(m["role"], avatar="⚽" if m["role"] == "assistant" else "🧑"):
+            st.markdown(m["content"])
+            if m.get("candidatos"):
+                st.caption("Ver la ficha completa de un jugador:")
+                fichas_buttons(m["candidatos"], f"hist{idx}")
+
+    prompt = st.chat_input("Ej: Tengo €85M y necesito un delantero. ¿Cuál me recomendás?")
+    if prompt:
+        st.session_state.chat_msgs.append({"role": "user", "content": prompt})
+        with st.chat_message("user", avatar="🧑"):
+            st.markdown(prompt)
+        with st.chat_message("assistant", avatar="⚽"):
+            with st.spinner("Pensando..."):
+                try:
+                    envio = [{"role": x["role"], "content": x["content"]} for x in st.session_state.chat_msgs]
+                    resp = requests.post(f"{API}/chat", json={"mensajes": envio}, timeout=45).json()
+                    texto = resp.get("respuesta", "No obtuve respuesta.")
+                    cands = resp.get("candidatos", [])
+                except Exception as e:
+                    texto, cands = f"Error al consultar el asistente: {e}", []
+            st.markdown(texto)
+            if cands:
+                st.caption("Ver la ficha completa de un jugador:")
+                fichas_buttons(cands, "now")
+        st.session_state.chat_msgs.append({"role": "assistant", "content": texto, "candidatos": cands})
+
+
+PAG = {"consultar": pagina_consultar, "evolucion": pagina_evolucion,
+       "ranking": pagina_ranking, "asistente": pagina_asistente}
 PAG[st.session_state.page]()

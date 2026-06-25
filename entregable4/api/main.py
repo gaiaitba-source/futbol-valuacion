@@ -29,6 +29,7 @@ _cargar_env()
 
 from .modelo import ModeloValuacion
 from .brief import generar_brief
+from .chat import responder as chat_responder
 
 app = FastAPI(
     title="API — Valuación de futbolistas a 12 meses",
@@ -123,6 +124,23 @@ def historico(player_id: int):
         return modelo.historico_jugador(player_id)
     except KeyError:
         raise HTTPException(404, f"No hay histórico para el jugador {player_id}")
+
+
+class MensajeChat(BaseModel):
+    role: str
+    content: str
+
+
+class PedidoChat(BaseModel):
+    mensajes: list[MensajeChat] = Field(..., description="Historial de la conversación (user/assistant)")
+
+
+@app.post("/chat")
+def chat(p: PedidoChat):
+    """Asistente de scouting: recibe la conversación y devuelve respuesta + candidatos."""
+    _check()
+    msgs = [{"role": m.role, "content": m.content} for m in p.mensajes]
+    return chat_responder(msgs, modelo)
 
 
 @app.get("/brief/{player_id}")

@@ -9,3 +9,4 @@ modelos_liviano/
 __pycache__/
 *.pyc
 .ipynb_checkpoints/
+scout-ai/

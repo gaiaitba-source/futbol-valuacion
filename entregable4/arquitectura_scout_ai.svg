@@ -1,0 +1,78 @@
+<svg viewBox="0 0 1600 900" xmlns="http://www.w3.org/2000/svg" font-family="Arial, Helvetica, sans-serif">
+  <defs>
+    <marker id="arr" markerWidth="12" markerHeight="12" refX="9" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#8fd0ff"/>
+    </marker>
+    <marker id="arrG" markerWidth="12" markerHeight="12" refX="9" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#e6c15a"/>
+    </marker>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#0e2c49"/><stop offset="1" stop-color="#06121f"/>
+    </linearGradient>
+  </defs>
+
+  <rect x="0" y="0" width="1600" height="900" fill="url(#bg)"/>
+  <text x="800" y="62" text-anchor="middle" fill="#ffffff" font-size="42" font-weight="bold">Arquitectura de la solución</text>
+
+  <!-- ===== Carril 1: Entrenamiento ===== -->
+  <text x="60" y="138" fill="#e6c15a" font-size="23" font-weight="bold">1 · ENTRENAMIENTO  —  offline (una sola vez)</text>
+
+  <rect x="60" y="160" width="330" height="110" rx="14" fill="#122f4d" stroke="#6cb4ee" stroke-width="2"/>
+  <text x="225" y="208" text-anchor="middle" fill="#eaf3fc" font-size="23" font-weight="bold">CSVs de Transfermarkt</text>
+  <text x="225" y="238" text-anchor="middle" fill="#a9c4dd" font-size="17">5 tablas públicas</text>
+
+  <line x1="390" y1="215" x2="600" y2="215" stroke="#8fd0ff" stroke-width="3" marker-end="url(#arr)"/>
+
+  <rect x="600" y="160" width="370" height="110" rx="14" fill="#122f4d" stroke="#6cb4ee" stroke-width="2"/>
+  <text x="785" y="206" text-anchor="middle" fill="#eaf3fc" font-size="22" font-weight="bold">entrenar_modelo.py</text>
+  <text x="785" y="236" text-anchor="middle" fill="#a9c4dd" font-size="17">feature engineering + XGBoost</text>
+
+  <line x1="970" y1="215" x2="1180" y2="215" stroke="#8fd0ff" stroke-width="3" marker-end="url(#arr)"/>
+
+  <rect x="1180" y="160" width="360" height="110" rx="14" fill="#1c2f3f" stroke="#e6c15a" stroke-width="2.5"/>
+  <text x="1360" y="202" text-anchor="middle" fill="#eaf3fc" font-size="23" font-weight="bold">Artefactos</text>
+  <text x="1360" y="232" text-anchor="middle" fill="#e6c15a" font-size="17">.joblib · .csv · .json</text>
+
+  <!-- flecha vertical: artefactos -> modelo (alimenta el uso) -->
+  <path d="M1360,270 L1360,330 L1395,330 L1395,500" fill="none" stroke="#e6c15a" stroke-width="3" stroke-dasharray="2 0" marker-end="url(#arrG)"/>
+  <text x="1410" y="360" fill="#e6c15a" font-size="16">se cargan</text>
+
+  <!-- ===== Carril 2: Uso (Docker) ===== -->
+  <rect x="40" y="360" width="1520" height="470" rx="20" fill="none" stroke="#8fd0ff" stroke-width="2" stroke-dasharray="10 8"/>
+  <text x="62" y="392" fill="#8fd0ff" font-size="19" font-weight="bold">🐳  Docker — un contenedor (API + interfaz + artefactos)</text>
+  <text x="62" y="430" fill="#e6c15a" font-size="23" font-weight="bold">2 · USO  —  en vivo</text>
+
+  <!-- Usuario -->
+  <rect x="60" y="470" width="240" height="120" rx="14" fill="#15395c" stroke="#6cb4ee" stroke-width="2"/>
+  <text x="180" y="522" text-anchor="middle" fill="#eaf3fc" font-size="23" font-weight="bold">Usuario / Scout</text>
+  <text x="180" y="552" text-anchor="middle" fill="#a9c4dd" font-size="17">busca y consulta</text>
+
+  <!-- Interfaz -->
+  <line x1="300" y1="530" x2="420" y2="530" stroke="#8fd0ff" stroke-width="3" marker-end="url(#arr)"/>
+  <line x1="420" y1="558" x2="300" y2="558" stroke="#8fd0ff" stroke-width="3" marker-end="url(#arr)"/>
+  <rect x="420" y="470" width="320" height="120" rx="14" fill="#122f4d" stroke="#6cb4ee" stroke-width="2"/>
+  <text x="580" y="522" text-anchor="middle" fill="#eaf3fc" font-size="23" font-weight="bold">Interfaz · Streamlit</text>
+  <text x="580" y="552" text-anchor="middle" fill="#a9c4dd" font-size="17">consume la API</text>
+
+  <!-- API -->
+  <line x1="740" y1="530" x2="860" y2="530" stroke="#8fd0ff" stroke-width="3" marker-end="url(#arr)"/>
+  <text x="800" y="512" text-anchor="middle" fill="#8fd0ff" font-size="15">HTTP / JSON</text>
+  <rect x="860" y="470" width="320" height="120" rx="14" fill="#1c2f3f" stroke="#e6c15a" stroke-width="2.5"/>
+  <text x="1020" y="516" text-anchor="middle" fill="#eaf3fc" font-size="23" font-weight="bold">API · FastAPI</text>
+  <text x="1020" y="546" text-anchor="middle" fill="#a9c4dd" font-size="17">endpoints + validación + errores</text>
+
+  <!-- Modelo -->
+  <line x1="1180" y1="530" x2="1300" y2="530" stroke="#8fd0ff" stroke-width="3" marker-end="url(#arr)"/>
+  <rect x="1300" y="470" width="240" height="120" rx="14" fill="#122f4d" stroke="#6cb4ee" stroke-width="2"/>
+  <text x="1420" y="522" text-anchor="middle" fill="#eaf3fc" font-size="22" font-weight="bold">Modelo XGBoost</text>
+  <text x="1420" y="552" text-anchor="middle" fill="#a9c4dd" font-size="17">+ artefactos</text>
+
+  <!-- IA -->
+  <line x1="1020" y1="590" x2="1020" y2="668" stroke="#8fd0ff" stroke-width="3" marker-end="url(#arr)"/>
+  <rect x="860" y="668" width="320" height="100" rx="14" fill="#2a2238" stroke="#e6c15a" stroke-width="2"/>
+  <text x="1020" y="708" text-anchor="middle" fill="#eaf3fc" font-size="22" font-weight="bold">IA · Groq (Llama)</text>
+  <text x="1020" y="736" text-anchor="middle" fill="#a9c4dd" font-size="17">resumen de scouting</text>
+
+  <!-- nota inferior -->
+  <text x="800" y="870" text-anchor="middle" fill="#8fd0ff" font-size="20" font-weight="bold">La interfaz nunca toca el modelo: toda consulta pasa por la API REST.</text>
+</svg>
